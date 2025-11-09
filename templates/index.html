@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Churn Prediction Website{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Predict Customer Churn with AI</h1>
+            <p class="hero-subtitle">Leverage machine learning to identify customers at risk of churning and take proactive action.</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('predict') }}" class="btn btn-primary">
+                    <i class="fas fa-magic"></i> Make Prediction
+                </a>
+                <a href="{{ url_for('upload') }}" class="btn btn-secondary">
+                    <i class="fas fa-upload"></i> Upload CSV
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='images/churn-hero.svg') }}" alt="Churn Prediction" onerror="this.style.display='none'">
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Key Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>ML-Powered Predictions</h3>
+                <p>Advanced K-Nearest Neighbors algorithm trained on telecom customer data for accurate churn predictions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-csv"></i>
+                </div>
+                <h3>Batch Processing</h3>
+                <p>Upload CSV files with multiple customer records and get predictions for all of them at once.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Analytics Dashboard</h3>
+                <p>Visualize churn statistics, trends, and insights with interactive charts and graphs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Prediction History</h3>
+                <p>Track all your predictions with a built-in database for future reference and analysis.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Upload Data</h3>
+                <p>Upload a CSV file or manually enter customer details including tenure, charges, contract type, and more.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>AI Analysis</h3>
+                <p>Our trained KNN model analyzes the customer data and identifies patterns that indicate churn risk.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Get Results</h3>
+                <p>Receive instant predictions with probability scores to help you prioritize retention efforts.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

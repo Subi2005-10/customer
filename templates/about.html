@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}About - Churn Prediction Website{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="container">
+        <h1 class="page-title">
+            <i class="fas fa-info-circle"></i> About Churn Prediction Website
+        </h1>
+
+        <div class="about-content">
+            <div class="about-card">
+                <h2><i class="fas fa-lightbulb"></i> What is Customer Churn?</h2>
+                <p>Customer churn, also known as customer attrition, refers to when customers stop doing business with a company. In the telecommunications industry, churn is a critical metric that directly impacts revenue and growth.</p>
+                <p>Identifying customers who are likely to churn allows businesses to implement targeted retention strategies, improve customer satisfaction, and reduce revenue loss.</p>
+            </div>
+
+            <div class="about-card">
+                <h2><i class="fas fa-robot"></i> Our Machine Learning Model</h2>
+                <p>Churn Prediction Website uses a <strong>K-Nearest Neighbors (KNN)</strong> classifier, a powerful machine learning algorithm that identifies patterns in customer data to predict churn likelihood.</p>
+                <p>The model is trained on telecom customer data and considers various factors including:</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Customer demographics (gender, age, partner status)</li>
+                    <li><i class="fas fa-check"></i> Service usage (tenure, phone service, internet service)</li>
+                    <li><i class="fas fa-check"></i> Contract details (contract type, payment method)</li>
+                    <li><i class="fas fa-check"></i> Financial metrics (monthly charges, total charges)</li>
+                    <li><i class="fas fa-check"></i> Additional services (streaming, security, backup)</li>
+                </ul>
+            </div>
+
+            <div class="about-card">
+                <h2><i class="fas fa-cogs"></i> How It Works</h2>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-icon">1</div>
+                        <h3>Data Input</h3>
+                        <p>Upload a CSV file or manually enter customer information through our intuitive form.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon">2</div>
+                        <h3>AI Analysis</h3>
+                        <p>Our KNN model analyzes the data and compares it with patterns learned from historical customer data.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon">3</div>
+                        <h3>Prediction</h3>
+                        <p>Receive instant predictions with confidence scores to help prioritize retention efforts.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-card">
+                <h2><i class="fas fa-star"></i> Key Features</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-bolt"></i>
+                        <div>
+                            <h3>Fast Predictions</h3>
+                            <p>Get instant results for individual customers or batch process entire datasets.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h3>Analytics Dashboard</h3>
+                            <p>Visualize churn trends and statistics with interactive charts and graphs.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-database"></i>
+                        <div>
+                            <h3>Prediction History</h3>
+                            <p>Track all predictions in a built-in database for future reference and analysis.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <h3>Secure & Private</h3>
+                            <p>Your data is processed securely and predictions are stored locally.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-card">
+                <h2><i class="fas fa-code"></i> Technology Stack</h2>
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <i class="fab fa-python"></i>
+                        <span>Python</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-flask"></i>
+                        <span>Flask</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-brain"></i>
+                        <span>Scikit-learn</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <span>SQLite</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML5/CSS3</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-js"></i>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Chart.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

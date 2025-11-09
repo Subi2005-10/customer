@@ -1,0 +1,62 @@
+═══════════════════════════════════════════════════════════════
+  NGROK QUICK START GUIDE
+═══════════════════════════════════════════════════════════════
+
+STEP 1: INSTALL NGROK
+───────────────────────────────────────────────────────────────
+1. Download from: https://ngrok.com/download
+2. Extract ngrok.exe
+3. Add to PATH (optional) or use full path
+
+STEP 2: SIGN UP & GET TOKEN
+───────────────────────────────────────────────────────────────
+1. Go to: https://dashboard.ngrok.com/signup
+2. Sign up (free)
+3. Get your authtoken from dashboard
+
+STEP 3: CONFIGURE NGROK
+───────────────────────────────────────────────────────────────
+Run in Command Prompt:
+  ngrok config add-authtoken YOUR_TOKEN_HERE
+
+STEP 4: START FLASK SERVER
+───────────────────────────────────────────────────────────────
+Terminal 1:
+  cd "C:\Users\vidhy\OneDrive - SRM Institute of Science & Technology\Desktop\customer"
+  python app.py
+  
+Wait for: * Running on http://127.0.0.1:5000
+
+STEP 5: START NGROK
+───────────────────────────────────────────────────────────────
+Terminal 2 (NEW window):
+  ngrok http 5000
+  
+You'll see:
+  Forwarding: https://abc123.ngrok-free.app -> http://localhost:5000
+
+STEP 6: USE THE URL
+───────────────────────────────────────────────────────────────
+Copy the HTTPS URL (https://xxxx.ngrok-free.app)
+Use it on your phone, other computers, anywhere!
+
+═══════════════════════════════════════════════════════════════
+  QUICK COMMANDS
+═══════════════════════════════════════════════════════════════
+
+Start Flask:     python app.py
+Start ngrok:     ngrok http 5000
+Check status:    Open http://127.0.0.1:4040 (ngrok web interface)
+Stop ngrok:      Press Ctrl+C in ngrok window
+
+═══════════════════════════════════════════════════════════════
+  OR USE THE BATCH FILE
+═══════════════════════════════════════════════════════════════
+
+1. Start Flask server: python app.py
+2. Double-click: start_with_ngrok.bat
+3. Use the URL shown!
+
+═══════════════════════════════════════════════════════════════
+
+

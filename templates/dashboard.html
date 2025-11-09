@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Churn Prediction Website{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+    <div class="container">
+        <h1 class="page-title">
+            <i class="fas fa-chart-pie"></i> Analytics Dashboard
+        </h1>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ stats.total }}</h3>
+                    <p>Total Predictions</p>
+                </div>
+            </div>
+            <div class="stat-card churn-yes">
+                <div class="stat-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ stats.churn_yes }}</h3>
+                    <p>Likely to Churn</p>
+                </div>
+            </div>
+            <div class="stat-card churn-no">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ stats.churn_no }}</h3>
+                    <p>Likely to Stay</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ stats.churn_rate }}%</h3>
+                    <p>Churn Rate</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-card">
+                <h2><i class="fas fa-chart-pie"></i> Churn Distribution</h2>
+                <canvas id="churnPieChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2><i class="fas fa-chart-bar"></i> Churn Comparison</h2>
+                <canvas id="churnBarChart"></canvas>
+            </div>
+        </div>
+
+        <div class="recent-predictions">
+            <h2><i class="fas fa-history"></i> Recent Predictions</h2>
+            {% if recent_predictions %}
+            <div class="predictions-table-container">
+                <table class="predictions-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Customer ID</th>
+                            <th>Prediction</th>
+                            <th>Probability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pred in recent_predictions %}
+                        <tr>
+                            <td>{{ pred[1][:19] }}</td>
+                            <td>{{ pred[2] }}</td>
+                            <td>
+                                <span class="prediction-badge {{ 'badge-yes' if pred[3] == 'Yes' else 'badge-no' }}">
+                                    {{ pred[3] }}
+                                </span>
+                            </td>
+                            <td>{{ pred[4] }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="no-data">No predictions yet. Make your first prediction to see it here!</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Pie Chart
+    const pieCtx = document.getElementById('churnPieChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Likely to Churn', 'Likely to Stay'],
+            datasets: [{
+                data: [{{ stats.churn_yes }}, {{ stats.churn_no }}],
+                backgroundColor: ['#ff6b6b', '#51cf66'],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Bar Chart
+    const barCtx = document.getElementById('churnBarChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Likely to Churn', 'Likely to Stay'],
+            datasets: [{
+                label: 'Number of Predictions',
+                data: [{{ stats.churn_yes }}, {{ stats.churn_no }}],
+                backgroundColor: ['#ff6b6b', '#51cf66'],
+                borderColor: ['#ff5252', '#40c057'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Upload CSV - Churn Prediction Website{% endblock %}
+
+{% block content %}
+<section class="upload-section">
+    <div class="container">
+        <h1 class="page-title">
+            <i class="fas fa-file-upload"></i> Upload CSV File
+        </h1>
+        <p class="page-subtitle">Upload a CSV file with customer data to get batch predictions</p>
+
+        <div class="upload-container">
+            <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" class="upload-form">
+                <div class="upload-box">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h3>Choose CSV File</h3>
+                    <p>Select a CSV file containing customer data</p>
+                    <input type="file" name="file" id="file" accept=".csv" required>
+                    <label for="file" class="file-label">
+                        <i class="fas fa-folder-open"></i> Browse Files
+                    </label>
+                    <p class="file-name" id="fileName">No file selected</p>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">
+                    <i class="fas fa-upload"></i> Upload & Predict
+                </button>
+            </form>
+        </div>
+
+        {% if show_results and results %}
+        <div class="results-container">
+            <h2 class="results-title">
+                <i class="fas fa-chart-line"></i> Prediction Results
+            </h2>
+            <div class="results-summary">
+                <div class="summary-card">
+                    <i class="fas fa-users"></i>
+                    <h3>{{ results|length }}</h3>
+                    <p>Total Predictions</p>
+                </div>
+                <div class="summary-card churn-yes">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>{{ results|selectattr('Churn_Prediction', 'equalto', 'Yes')|list|length }}</h3>
+                    <p>Likely to Churn</p>
+                </div>
+                <div class="summary-card churn-no">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>{{ results|selectattr('Churn_Prediction', 'equalto', 'No')|list|length }}</h3>
+                    <p>Likely to Stay</p>
+                </div>
+            </div>
+            <div class="results-table-container">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Prediction</th>
+                            <th>Probability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                        <tr class="{{ 'churn-row-yes' if result.Churn_Prediction == 'Yes' else 'churn-row-no' }}">
+                            <td>{{ result.customerID }}</td>
+                            <td>
+                                <span class="prediction-badge {{ 'badge-yes' if result.Churn_Prediction == 'Yes' else 'badge-no' }}">
+                                    {{ result.Churn_Prediction }}
+                                </span>
+                            </td>
+                            <td>{{ result.Churn_Probability }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="csv-guide">
+            <h3><i class="fas fa-info-circle"></i> CSV Format Guide</h3>
+            <p>Your CSV file should include the following columns:</p>
+            <ul>
+                <li><strong>customerID</strong> (optional - will be auto-generated if missing)</li>
+                <li><strong>gender</strong> (Male/Female)</li>
+                <li><strong>SeniorCitizen</strong> (0 or 1)</li>
+                <li><strong>Partner</strong> (Yes/No)</li>
+                <li><strong>Dependents</strong> (Yes/No)</li>
+                <li><strong>tenure</strong> (number of months)</li>
+                <li><strong>PhoneService</strong> (Yes/No)</li>
+                <li><strong>MultipleLines</strong> (Yes/No/No phone service)</li>
+                <li><strong>InternetService</strong> (DSL/Fiber optic/No)</li>
+                <li><strong>OnlineSecurity</strong> (Yes/No/No internet service)</li>
+                <li><strong>OnlineBackup</strong> (Yes/No/No internet service)</li>
+                <li><strong>DeviceProtection</strong> (Yes/No/No internet service)</li>
+                <li><strong>TechSupport</strong> (Yes/No/No internet service)</li>
+                <li><strong>StreamingTV</strong> (Yes/No/No internet service)</li>
+                <li><strong>StreamingMovies</strong> (Yes/No/No internet service)</li>
+                <li><strong>Contract</strong> (Month-to-month/One year/Two year)</li>
+                <li><strong>PaperlessBilling</strong> (Yes/No)</li>
+                <li><strong>PaymentMethod</strong> (Electronic check/Mailed check/Bank transfer (automatic)/Credit card (automatic))</li>
+                <li><strong>MonthlyCharges</strong> (numeric)</li>
+                <li><strong>TotalCharges</strong> (numeric)</li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('file').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'No file selected';
+        document.getElementById('fileName').textContent = fileName;
+    });
+</script>
+{% endblock %}
+
