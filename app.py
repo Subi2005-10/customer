@@ -8,6 +8,7 @@ import joblib
 import os
 from datetime import datetime
 import sqlite3
+import pickle  # Add this new import
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -33,13 +34,31 @@ os.makedirs('data', exist_ok=True)
 def load_model():
     """Load the trained model and encoders."""
     try:
-        model = joblib.load('models/knn_model.pkl')
-        label_encoders = joblib.load('models/label_encoders.pkl')
-        target_encoder = joblib.load('models/target_encoder.pkl')
-        feature_cols = joblib.load('models/feature_cols.pkl')
-        return model, label_encoders, target_encoder, feature_cols
-    except FileNotFoundError:
+        # First check if KNN model files exist
+        if os.path.exists('models/knn_model.pkl'):
+            model = joblib.load('models/knn_model.pkl')
+            label_encoders = joblib.load('models/label_encoders.pkl')
+            target_encoder = joblib.load('models/target_encoder.pkl')
+            feature_cols = joblib.load('models/feature_cols.pkl')
+            print("✅ KNN model and encoders loaded successfully.")
+            return model, label_encoders, target_encoder, feature_cols
+
+        # Otherwise, fall back to the single model.pkl
+        elif os.path.exists('model.pkl'):
+            with open('model.pkl', 'rb') as f:
+                model = pickle.load(f)
+            print("✅ Model loaded successfully from model.pkl")
+            # no encoders available in this case
+            return model, None, None, None
+
+        else:
+            print("⚠️ No model found. Please train the model first.")
+            return None, None, None, None
+
+    except Exception as e:
+        print(f"❌ Error loading model: {e}")
         return None, None, None, None
+
 
 # Initialize database
 def init_db():
