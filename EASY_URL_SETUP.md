@@ -191,3 +191,4 @@ Some routers let you access devices by name:
 The IP address method is actually normal for local network websites - most local development uses IPs. But if you want something easier, ngrok is the best option!
 
 
+
