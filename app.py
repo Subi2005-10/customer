@@ -222,45 +222,48 @@ def upload():
             return redirect(request.url)
     
     return render_template('upload.html', show_results=False)
-
 @app.route('/dashboard')
 def dashboard():
     """Dashboard with churn statistics."""
-    conn = sqlite3.connect('churn_predictions.db')
-    c = conn.cursor()
-    
-    # Get statistics
-    c.execute('SELECT COUNT(*) FROM predictions')
-    total_predictions = c.fetchone()[0]
-    
-    c.execute("SELECT COUNT(*) FROM predictions WHERE prediction = 'Yes'")
-    churn_yes = c.fetchone()[0]
-    
-    c.execute("SELECT COUNT(*) FROM predictions WHERE prediction = 'No'")
-    churn_no = c.fetchone()[0]
-    
-    c.execute("SELECT AVG(probability) FROM predictions WHERE prediction = 'Yes'")
-    avg_prob_yes = c.fetchone()[0] or 0
-    
-    c.execute("SELECT AVG(probability) FROM predictions WHERE prediction = 'No'")
-    avg_prob_no = c.fetchone()[0] or 0
-    
-    # Get recent predictions
-    c.execute('SELECT * FROM predictions ORDER BY timestamp DESC LIMIT 10')
-    recent_predictions = c.fetchall()
-    
-    conn.close()
-    
-    stats = {
-        'total': total_predictions,
-        'churn_yes': churn_yes,
-        'churn_no': churn_no,
-        'avg_prob_yes': round(avg_prob_yes, 2),
-        'avg_prob_no': round(avg_prob_no, 2),
-        'churn_rate': round((churn_yes / total_predictions * 100) if total_predictions > 0 else 0, 2)
-    }
-    
-    return render_template('dashboard.html', stats=stats, recent_predictions=recent_predictions)
+    try:
+        conn = sqlite3.connect('churn_predictions.db')
+        c = conn.cursor()
+        
+        # Get statistics
+        c.execute('SELECT COUNT(*) FROM predictions')
+        total_predictions = c.fetchone()[0]
+        
+        c.execute("SELECT COUNT(*) FROM predictions WHERE prediction = 'Yes'")
+        churn_yes = c.fetchone()[0]
+        
+        c.execute("SELECT COUNT(*) FROM predictions WHERE prediction = 'No'")
+        churn_no = c.fetchone()[0]
+        
+        c.execute("SELECT AVG(probability) FROM predictions WHERE prediction = 'Yes'")
+        avg_prob_yes = c.fetchone()[0] or 0
+        
+        c.execute("SELECT AVG(probability) FROM predictions WHERE prediction = 'No'")
+        avg_prob_no = c.fetchone()[0] or 0
+        
+        # Get recent predictions
+        c.execute('SELECT * FROM predictions ORDER BY timestamp DESC LIMIT 10')
+        recent_predictions = c.fetchall()
+        
+        conn.close()
+        
+        stats = {
+            'total': total_predictions,
+            'churn_yes': churn_yes,
+            'churn_no': churn_no,
+            'avg_prob_yes': round(avg_prob_yes, 2),
+            'avg_prob_no': round(avg_prob_no, 2),
+            'churn_rate': round((churn_yes / total_predictions * 100) if total_predictions > 0 else 0, 2)
+        }
+        
+        return render_template('dashboard.html', stats=stats, recent_predictions=recent_predictions)
+    except Exception as e:
+        return f"Error loading dashboard: {e}"
+
 
 @app.route('/about')
 def about():
